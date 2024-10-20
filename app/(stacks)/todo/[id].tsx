@@ -32,20 +32,29 @@ export default function TodoPage() {
   };
 
   return (
-    <View>
+    <View className="px-5">
       <TextInput
+        className="bg-white border-2 border-neutral-400 rounded-lg mt-5 px-2"
         value={newData.title}
         onChangeText={(text) => setNewData({ ...newData, title: text })}
       />
       <TextInput
+        multiline={true}
+        numberOfLines={4}
+        scrollEnabled={true}
+        className="bg-white border-2 border-neutral-400 rounded-lg 
+        mt-5 px-2 max-h-44"
         value={newData.desc}
         placeholder="Description"
         onChangeText={(text) => setNewData({ ...newData, desc: text })}
       />
-      <Switch
-        value={newData.done}
-        onValueChange={(value) => setNewData({ ...newData, done: value })}
-      />
+      <View className="flex flex-row justify-between items-center ">
+        <Text>isDone? </Text>
+        <Switch
+          value={newData.done}
+          onValueChange={(value) => setNewData({ ...newData, done: value })}
+        />
+      </View>
       <Button title="Save" onPress={handleSave} />
     </View>
   );

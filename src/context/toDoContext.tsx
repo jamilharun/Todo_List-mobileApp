@@ -57,6 +57,7 @@ const todoReducer = (state: TodoState, action: TodoAction): TodoState => {
                 ...todo,
                 title: action.payload.title,
                 desc: action.payload.desc,
+                done: action.payload.done,
               }
             : todo
         ),

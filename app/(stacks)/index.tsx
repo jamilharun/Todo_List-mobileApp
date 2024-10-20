@@ -27,7 +27,7 @@ export default function index() {
   }: {
     item: { id: number; title: string; desc: string; done: boolean };
   }) => (
-    <View>
+    <View className="">
       <TouchableOpacity
         onLongPress={() => handleLongPress(item.id)}
         onPress={() =>
@@ -36,8 +36,16 @@ export default function index() {
             params: { id: item.id },
           })
         }
+        className={`bg-neutral-300 p-4 mt-5 mx-5 border-neutral-400 
+          border-2 rounded-lg flex flex-row justify-between items-center
+          max-h-20 overflow-hidden ${
+            selectedTodos.includes(item.id) ? "border-blue-700" : ""
+          }`}
       >
-        <Text>{item.title}</Text>
+        <Text className="text-lg font-medium overflow-hidden max-w-md">
+          {item.title}
+        </Text>
+        {item.done && <Feather name="check" size={24} color="green" />}
       </TouchableOpacity>
     </View>
   );
@@ -65,31 +73,37 @@ export default function index() {
     setSelectedTodos([]); // Clear selections after deletion
   };
   return (
-    <SafeAreaView className="">
-      <View className="divide-y">
-        <View className=" pt-4 px-2">
-          <Text className="text-2xl font-semibold">My To do list</Text>
-          <AntDesign
-            name="plussquareo"
-            size={24}
-            color="black"
-            onPress={handleAddTodo}
-          />
-        </View>
-
-        {selectedTodos.length > 0 && (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              margin: 16,
-            }}
-          >
-            <Text>{selectedTodos.length}</Text>
-            <View>
-              <Feather name="check" size={24} color="black" />
-              <Feather name="trash" size={24} color="black" />
+    <SafeAreaView className="bg-neutral-200 min-h-full">
+      <View className="divide-y pt-5 px-2">
+        {selectedTodos.length > 0 ? (
+          <View className="flex flex-row justify-between items-center">
+            <Text className="text-2xl font-medium">
+              selected: {selectedTodos.length}
+            </Text>
+            <View className="flex flex-row gap-2">
+              <Feather
+                onPress={handleMarkDone}
+                name="check"
+                size={24}
+                color="green"
+              />
+              <Feather
+                onPress={handleDeleteSelected}
+                name="trash"
+                size={24}
+                color="red"
+              />
             </View>
+          </View>
+        ) : (
+          <View className="  flex flex-row justify-between">
+            <Text className="text-2xl font-semibold">My To do list</Text>
+            <AntDesign
+              name="plussquareo"
+              size={24}
+              color="black"
+              onPress={handleAddTodo}
+            />
           </View>
         )}
 
@@ -100,9 +114,13 @@ export default function index() {
             renderItem={renderTodoItem}
           />
         ) : (
-          <Pressable onPress={handleAddTodo}>
-            <Text>you dont have a Todo's Yet</Text>
-            <Text>click to Create new Todo's</Text>
+          <Pressable onPress={handleAddTodo} className=" ">
+            <View className="bg-neutral-300 m-5 p-3 border-gray-400 border-2 rounded-xl">
+              {/* <Text className="text-center">you dont have a Todo's Yet</Text> */}
+              <Text className="text-center text-lg">
+                click to Create new Todo's
+              </Text>
+            </View>
           </Pressable>
         )}
       </View>
